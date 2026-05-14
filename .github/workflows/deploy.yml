@@ -10,12 +10,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+
       - run: npm install
-      - run: npm run build
+
+      - run: npm run build -- --mode production
+
+      - name: List dist contents
+        run: ls -la dist/ || echo "dist folder missing or empty"
+
       - uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
+          publish_dir: ./dist/client
